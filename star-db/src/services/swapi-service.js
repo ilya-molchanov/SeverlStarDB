@@ -42,7 +42,6 @@ export default class SwapiService {
 
     _transformPlanet = (planet) => {
         const arr = planet.url.match(/\/(\d+)+[\/]?/g).map(id => id.replace(/\//g, ''));
-        debugger;
         return { id: arr.length > 0 ? parseInt(arr[0]) : 1,
             name: planet.name,
             population: planet.population,
