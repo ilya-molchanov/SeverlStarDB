@@ -16,7 +16,6 @@ export default class PersonDetails extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.personId !== prevProps.personId) {
-      debugger;
       this.updatePerson();
     }
   }
