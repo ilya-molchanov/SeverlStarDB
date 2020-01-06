@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
-import ErrorButton from '../error-button';
+
 import ItemList from '../item-list/item-list';
 import PersonDetails from '../person-details/person-details';
-import ErrorIndicator from '../error-indicator/error-indicator';
+import SwapiService from '../../services/swapi-service';
+import Row from '../row';
+import ErrorBoundry from '../error-boundry';
+import ErrorButton from '../error-button';
 
 export default class PeoplePage extends Component {
 
+    swapiService = new SwapiService();
+
     state = {
-        selectedPerson: 3,
-        hasError: false
+        selectedPerson: 3
     };
-
-    componentDidCatch(error, info) {
-
-        this.setState({
-          hasError: true
-        });
-      }
 
     onPersonSelected = (selectedPerson) => {
         this.setState({ selectedPerson });
@@ -24,21 +21,30 @@ export default class PeoplePage extends Component {
 
     render() {
 
-        if (this.state.hasError) {
-            return <ErrorIndicator />;
-        }
+        // renderItem={ (item) => `${item.name} (${item.gender}, ${item.birthYear})`
+        // renderItem={ ({name, gender, birthYear}) => `${name} (${gender}, ${birthYear})`}
+
+        const itemList = (
+            <ItemList
+                onItemSelected={this.onPersonSelected}
+                getData={this.swapiService.getAllPeople}>
+                {
+                    (i) => (
+                    `${i.name} (${i.birthYear})`
+                    )
+                }
+            </ItemList>
+        );
+
+        const personDetails = (
+            <ErrorBoundry>
+                <PersonDetails personId={this.state.selectedPerson} />
+                <ErrorButton />
+            </ErrorBoundry>
+        );
 
         return (
-            <div className="row mb2">
-                <div className="col-md-6">
-                    <ItemList onItemSelected={this.onPersonSelected} />
-                </div>
-                <div className="col-md-6">
-                    <PersonDetails personId={this.state.selectedPerson} />
-                </div>
-                <ErrorButton />
-            </div>
+            <Row left={itemList} right={personDetails} />
         )
     }
-
 }

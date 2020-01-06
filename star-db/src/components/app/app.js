@@ -4,11 +4,16 @@ import Header from '../header';
 import RandomPlanet from '../random-planet';
 import ErrorButton from '../error-button';
 import ErrorIndicator from '../error-indicator';
+import ItemList from '../item-list/item-list';
+import PersonDetails from '../person-details/person-details';
+import SwapiService from '../../services/swapi-service';
 
 import './app.css';
 import PeoplePage from '../people-page/people-page';
 
 export default class App extends Component {
+
+  swapiService = new SwapiService();
 
   state = {
     showRandomPlanet: true,
@@ -52,8 +57,40 @@ export default class App extends Component {
         </div>
 
         <PeoplePage />
-        <PeoplePage />
-        <PeoplePage />
+
+        <div className="col-md-6">
+            <ItemList 
+            onItemSelected={this.onPersonSelected}
+            getData={ this.swapiService.getAllPlanets }
+            // renderItem={ (item) => item.name }
+            >
+              {
+                  (i) => (
+                  `${i.name}`
+                  )
+              }
+            </ItemList>
+        </div>
+        <div className="col-md-6">
+            <PersonDetails personId={this.state.selectedPerson} />
+        </div>
+
+        <div className="col-md-6">
+            <ItemList 
+            onItemSelected={this.onPersonSelected}
+            getData={ this.swapiService.getAllStarships }
+            // renderItem={ (item) => item.name } 
+            >
+              {
+                  (i) => (
+                  `${i.name}`
+                  )
+              }
+            </ItemList>
+        </div>
+        <div className="col-md-6">
+            <PersonDetails personId={this.state.selectedPerson} />
+        </div>
 
       </div>
     );
