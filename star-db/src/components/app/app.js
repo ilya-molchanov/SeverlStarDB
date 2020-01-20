@@ -67,10 +67,10 @@ export default class App extends Component {
               <Route path="/planets" component={PlanetsPage} />
               <Route path="/starships" exact component={StarshipsPage} />
               <Route path="/starships/:id" exact
-              render={({match, location, history}) => {
-                const { id } = match.params;
-                return <StarshipDetails itemId={id} />
-              }} />
+                     render={({match, location, history}) => {
+                      const { id } = match.params;
+                      return <StarshipDetails itemId={id} />
+                    }} />
 
 
               {/* <Row left={ <PlanetList /> } right={ <PlanetDetails /> } />
